@@ -1,0 +1,9 @@
+.vdp-datepicker input {
+    /* Apply Tailwind CSS utility classes */
+    /* For example: */
+    padding: 2px 4px;
+    border: 1px solid #e2e8f0;
+    /* Add other styles as needed */
+    border-radius: 4px;
+background: var(--Gray-6, #F2F2F2);
+  }
