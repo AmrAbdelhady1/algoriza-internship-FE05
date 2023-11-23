@@ -1,6 +1,6 @@
 <template>
   <nav
-    class="flex items-center justify-between lg:mx-[100px] md:mx-[35px] mx-[10px] h-[68px]"
+    class="flex items-center justify-between h-[68px]"
   >
     <div class="flex items-center gap-1">
       <LogoSvg />

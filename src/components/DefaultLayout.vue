@@ -1,8 +1,10 @@
 <template>
-  <Navbar />
-  <main>
-    <router-view />
-  </main>
+  <div class="lg:px-[100px] md:px-[35px] px-[10px]">
+    <Navbar />
+    <main>
+      <router-view />
+    </main>
+  </div>
 </template>
 
 <script>
