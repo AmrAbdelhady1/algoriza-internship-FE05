@@ -1,7 +1,5 @@
 <template>
-  <nav
-    class="flex items-center justify-between h-[68px]"
-  >
+  <nav class="flex items-center justify-between h-[68px]">
     <div class="flex items-center gap-1">
       <LogoSvg />
       <p class="text-[#1B1F2D] text-lg font-medium tracking-[0.36px]">
@@ -19,11 +17,13 @@
         {{ item }}
       </p>
     </div>
-    <button
-      class="px-[18px] py-[10px] rounded-md bg-[#2F80ED] border border-[#2F80ED] text-white text-[15px] font-medium tracking-[0.3px]"
+    <router-link
+      :to="{ name: 'signup' }"
+      class="px-[18px] py-[10px] rounded-md bg-[#2F80ED] hover:bg-transparent hover:text-[#2F80ED] 
+      border border-[#2F80ED] text-white text-[15px] font-medium tracking-[0.3px]"
     >
       Register
-    </button>
+    </router-link>
   </nav>
 </template>
 
