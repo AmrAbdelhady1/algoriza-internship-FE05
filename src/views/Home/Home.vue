@@ -18,10 +18,13 @@
       Discover new places and experiences
     </p>
   </div>
+
+  <WelcomeCard v-if="showCard" @hide-card="toggleCardChange" />
 </template>
 
 <script>
 import WarningMessage from "../../components/WarningMessage.vue";
+import WelcomeCard from "../../components/WelcomeCard.vue";
 import DreamVacations from "./components/DreamVacations.vue";
 import FooterBanner from "./components/FooterBanner.vue";
 import HeroBanner from "./components/HeroBanner.vue";
@@ -36,9 +39,20 @@ export default {
     NextTrip,
     PopularHotals,
     FooterBanner,
+    WelcomeCard,
   },
   mounted() {
     this.$emit("footerColor", "white");
+  },
+  data() {
+    return {
+      showCard: true,
+    };
+  },
+  methods: {
+    toggleCardChange() {
+      this.showCard = false;
+    },
   },
 };
 </script>
