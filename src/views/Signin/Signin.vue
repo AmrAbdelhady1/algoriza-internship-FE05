@@ -19,18 +19,27 @@
         type="text"
         id="email"
         v-model="signInData.email"
-        class="w-[400px] h-[44px] p-3 rounded bg-[#F2F2F2] mt-1 focus:outline-none"
+        class="w-[400px] h-[44px] p-3 rounded bg-[#F2F2F2] mt-1 focus:outline-none focus:bg-white focus:border focus:border-[#2F80ED]"
       />
       <p class="text-red-600 mt-1">{{ errors.isEmailRegistered }}</p>
     </div>
     <div>
       <h1>Password</h1>
-      <input
-        type="password"
-        id="password"
-        v-model="signInData.password"
-        class="w-[400px] h-[44px] p-3 rounded bg-[#F2F2F2] mt-1 focus:outline-none"
-      />
+      <div class="relative">
+        <input
+          type="password"
+          id="password"
+          v-model="signInData.password"
+          class="w-[400px] pr-10 h-[44px] p-3 rounded bg-[#F2F2F2] mt-1 focus:outline-none focus:bg-white focus:border focus:border-[#2F80ED]"
+        />
+        <button
+          type="button"
+          @click="togglePasswordVisibility"
+          class="absolute inset-y-0 right-0 flex items-center pr-3"
+        >
+          <ShowPasswordSvg />
+        </button>
+      </div>
       <p class="text-red-600 mt-1">{{ errors.isPasswordRegistered }}</p>
     </div>
     <button
@@ -52,11 +61,12 @@
 
 <script>
 import { ref } from "vue";
-import LogoSvg from "../../assets/svg/logoSvg.vue";
 import { useRouter } from "vue-router";
+import LogoSvg from "../../assets/svg/logoSvg.vue";
+import ShowPasswordSvg from "../../assets/svg/showPasswordSvg.vue";
 
 export default {
-  setup() {
+  data() {
     const router = useRouter();
     const signInData = ref({
       email: "",
@@ -98,8 +108,18 @@ export default {
       signInData,
       errors,
       submitForm,
+      showPassword: false,
     };
   },
-  components: { LogoSvg },
+  methods: {
+    togglePasswordVisibility() {
+      this.showPassword = !this.showPassword;
+      const input = document.getElementById("password");
+      if (input) {
+        input.type = this.showPassword ? "text" : "password";
+      }
+    },
+  },
+  components: { LogoSvg, ShowPasswordSvg },
 };
 </script>

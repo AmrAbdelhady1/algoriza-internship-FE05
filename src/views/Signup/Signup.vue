@@ -19,28 +19,46 @@
         type="text"
         id="email"
         v-model="signUpData.email"
-        class="w-[400px] h-[44px] p-3 rounded bg-[#F2F2F2] mt-1 focus:outline-none"
+        class="w-[400px] h-[44px] p-3 rounded bg-[#F2F2F2] mt-1 focus:outline-none focus:bg-white focus:border focus:border-[#2F80ED]"
       />
       <p class="text-red-600 mt-1">{{ errors.email }}</p>
     </div>
     <div>
       <h1>Password</h1>
-      <input
-        type="password"
-        id="password"
-        v-model="signUpData.password"
-        class="w-[400px] h-[44px] p-3 rounded bg-[#F2F2F2] mt-1 focus:outline-none"
-      />
+      <div class="relative">
+        <input
+          type="password"
+          id="password"
+          v-model="signUpData.password"
+          class="w-[400px] pr-10 h-[44px] p-3 rounded bg-[#F2F2F2] mt-1 focus:outline-none focus:bg-white focus:border focus:border-[#2F80ED]"
+        />
+        <button
+          type="button"
+          @click="togglePasswordVisibility"
+          class="absolute inset-y-0 right-0 flex items-center pr-3"
+        >
+          <ShowPasswordSvg />
+        </button>
+      </div>
       <p class="text-red-600 mt-1">{{ errors.password }}</p>
     </div>
     <div>
       <h1>Confirm password</h1>
-      <input
-        type="password"
-        id="confirmPassword"
-        v-model="signUpData.confirmPassword"
-        class="w-[400px] h-[44px] p-3 rounded bg-[#F2F2F2] mt-1 focus:outline-none"
-      />
+      <div class="relative">
+        <input
+          type="password"
+          id="confirmPassword"
+          v-model="signUpData.confirmPassword"
+          class="w-[400px] pr-10 h-[44px] p-3 rounded bg-[#F2F2F2] mt-1 focus:outline-none focus:bg-white focus:border focus:border-[#2F80ED]"
+        />
+        <button
+          type="button"
+          @click="toggleConfirmPasswordVisibility"
+          class="absolute inset-y-0 right-0 flex items-center pr-3"
+        >
+          <ShowPasswordSvg />
+        </button>
+      </div>
       <p class="text-red-600 mt-1">{{ errors.confirmPassword }}</p>
     </div>
     <button
@@ -65,9 +83,10 @@
 import { ref } from "vue";
 import LogoSvg from "../../assets/svg/logoSvg.vue";
 import { useRouter } from "vue-router";
+import ShowPasswordSvg from "../../assets/svg/showPasswordSvg.vue";
 
 export default {
-  setup() {
+  data() {
     const router = useRouter();
     const signUpData = ref({
       email: "",
@@ -148,8 +167,26 @@ export default {
       signUpData,
       errors,
       submitForm,
+      showPassword: false,
+      showConfirmPassword: false,
     };
   },
-  components: { LogoSvg },
+  methods: {
+    togglePasswordVisibility() {
+      this.showPassword = !this.showPassword;
+      const input = document.getElementById("password");
+      if (input) {
+        input.type = this.showPassword ? "text" : "password";
+      }
+    },
+    toggleConfirmPasswordVisibility() {
+      this.showConfirmPassword = !this.showConfirmPassword;
+      const input = document.getElementById("confirmPassword");
+      if (input) {
+        input.type = this.showConfirmPassword ? "text" : "password";
+      }
+    },
+  },
+  components: { LogoSvg, ShowPasswordSvg },
 };
 </script>

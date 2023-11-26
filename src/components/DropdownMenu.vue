@@ -1,6 +1,6 @@
 <template>
   <div
-    class="bg-white rounded-[10px] left-0 shadow-md flex w-[206px] absolute top-[120%] items-center flex-col"
+    class="bg-white rounded-[10px] shadow-md flex w-[206px] items-center flex-col"
   >
     <div
       v-for="item in data"

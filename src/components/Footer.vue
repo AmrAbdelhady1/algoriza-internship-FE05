@@ -1,6 +1,7 @@
 <template>
   <div
-    class="lg:px-[100px] md:px-[35px] px-[10px] mb-[60px] flex flex-wrap justify-between items-start"
+    :style="{ backgroundColor: color }"
+    class="lg:px-[100px] md:px-[35px] px-[10px] pb-[60px] flex flex-wrap justify-between items-start"
   >
     <div class="flex items-start gap-1">
       <LogoSvg />
@@ -43,6 +44,7 @@ import LogoSvg from "../assets/svg/logoSvg.vue";
 
 export default {
   components: { CopyRightSvg, LogoSvg },
+  props: ["color"],
   data() {
     return {
       data: [

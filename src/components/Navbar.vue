@@ -1,11 +1,14 @@
 <template>
-  <nav class="flex items-center justify-between h-[68px]">
-    <div class="flex items-center gap-1">
+  <nav class="flex items-center justify-between h-[68px] bg-white">
+    <router-link
+      :to="{ name: 'home' }"
+      class="flex items-center gap-1 cursor-pointer"
+    >
       <LogoSvg />
       <p class="text-[#1B1F2D] text-lg font-medium tracking-[0.36px]">
         my Dream Place
       </p>
-    </div>
+    </router-link>
     <div class="flex items-center gap-12 text-[#333333] tracking-[0.32px]">
       <p
         v-for="(item, index) in navigationItems"
@@ -17,10 +20,17 @@
         {{ item }}
       </p>
     </div>
+    <div v-if="isLoggedin" class="flex items-center gap-[22px]">
+      <NotificationSvg />
+      <div class="relative cursor-pointer" @click="toggleMenu">
+        <ProfilePicSvg />
+        <UserMenu v-if="showMenu" class="absolute right-0 top-[140%]" />
+      </div>
+    </div>
     <router-link
       :to="{ name: 'signup' }"
-      class="px-[18px] py-[10px] rounded-md bg-[#2F80ED] hover:bg-transparent hover:text-[#2F80ED] 
-      border border-[#2F80ED] text-white text-[15px] font-medium tracking-[0.3px]"
+      v-else
+      class="px-[18px] py-[10px] rounded-md bg-[#2F80ED] hover:bg-transparent hover:text-[#2F80ED] border border-[#2F80ED] text-white text-[15px] font-medium tracking-[0.3px]"
     >
       Register
     </router-link>
@@ -29,20 +39,44 @@
 
 <script>
 import LogoSvg from "../assets/svg/logoSvg.vue";
+import NotificationSvg from "../assets/svg/notificationSvg.vue";
+import ProfilePicSvg from "../assets/svg/profilePicSvg.vue";
+import UserMenu from "./UserMenu.vue";
 
 export default {
   components: {
     LogoSvg,
+    NotificationSvg,
+    ProfilePicSvg,
+    UserMenu,
   },
   data() {
+    const isLoggedin = localStorage.getItem("token") ? true : false;
     return {
       navigationItems: ["Home", "Discover", "Activities", "About", "Contact"],
       hoveredIndex: -1,
+      isLoggedin,
+      showMenu: false,
     };
   },
   methods: {
     setHovered(index) {
       this.hoveredIndex = index;
+    },
+    toggleMenu() {
+      this.showMenu = !this.showMenu;
+      if (this.showMenu) {
+        document.addEventListener("click", this.closeMenuOnClickOutside);
+      } else {
+        document.removeEventListener("click", this.closeMenuOnClickOutside);
+      }
+    },
+    closeMenuOnClickOutside(event) {
+      const menuElement = this.$refs.userMenu;
+      if (!menuElement.contains(event.target)) {
+        this.showMenu = false;
+        document.removeEventListener("click", this.closeMenuOnClickOutside);
+      }
     },
   },
 };

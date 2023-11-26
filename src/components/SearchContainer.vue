@@ -20,6 +20,7 @@
         v-if="showMenu"
         :data="data"
         @item-selected="updateSelectedLocation"
+        class="left-0 absolute top-[120%]"
       />
     </div>
     <VueDatePicker />

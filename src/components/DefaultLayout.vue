@@ -1,11 +1,9 @@
 <template>
-  <div class="lg:px-[100px] md:px-[35px] px-[10px]">
-    <Navbar />
+    <Navbar class="lg:px-[100px] md:px-[35px] px-[10px]" />
     <main>
-      <router-view />
+      <router-view @footerColor="changeFooterColor" />
     </main>
-  </div>
-  <Footer />
+  <Footer :color="footerColor" />
 </template>
 
 <script>
@@ -16,6 +14,16 @@ export default {
   components: {
     Navbar,
     Footer,
+  },
+  data() {
+    return {
+      footerColor: "white",
+    };
+  },
+  methods: {
+    changeFooterColor(color) {
+      this.footerColor = color;
+    },
   },
 };
 </script>
