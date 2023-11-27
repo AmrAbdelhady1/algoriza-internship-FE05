@@ -30,6 +30,7 @@ import FooterBanner from "./components/FooterBanner.vue";
 import HeroBanner from "./components/HeroBanner.vue";
 import NextTrip from "./components/NextTrip.vue";
 import PopularHotals from "./components/PopularHotals.vue";
+import { useStore } from "../../stores/Store";
 
 export default {
   components: {
@@ -45,8 +46,9 @@ export default {
     this.$emit("footerColor", "white");
   },
   data() {
+    const store = useStore();
     return {
-      showCard: true,
+      showCard: store.showCard,
     };
   },
   methods: {

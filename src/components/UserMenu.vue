@@ -36,6 +36,7 @@ import AccountSvg from "../assets/svg/accountSvg.vue";
 import SignoutSvg from "../assets/svg/signoutSvg.vue";
 import TripsSvg from "../assets/svg/tripsSvg.vue";
 import WalletSvg from "../assets/svg/walletSvg.vue";
+import { useStore } from "../stores/Store";
 
 export default {
   components: {
@@ -45,8 +46,10 @@ export default {
     WalletSvg,
   },
   data() {
+    const store = useStore();
     const signOut = () => {
       localStorage.removeItem("token");
+      store.loggedOut();
       setTimeout(() => {
         window.open("/", "_self");
       }, 1000);

@@ -64,9 +64,11 @@ import { ref } from "vue";
 import { useRouter } from "vue-router";
 import LogoSvg from "../../assets/svg/logoSvg.vue";
 import ShowPasswordSvg from "../../assets/svg/showPasswordSvg.vue";
+import { useStore } from "../../stores/Store";
 
 export default {
   data() {
+    const store = useStore();
     const router = useRouter();
     const signInData = ref({
       email: "",
@@ -97,6 +99,7 @@ export default {
       if (isEmailRegistered && isPasswordRegistered) {
         const randomToken = generateRandomToken();
         localStorage.setItem("token", randomToken);
+        store.loggedIn();
         router.push("/");
       } else if (isEmailRegistered) {
         errors.value.isPasswordRegistered = "Password is wrong";

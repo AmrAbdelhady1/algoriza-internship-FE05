@@ -65,18 +65,6 @@ export default {
     },
     toggleMenu() {
       this.showMenu = !this.showMenu;
-      if (this.showMenu) {
-        document.addEventListener("click", this.closeMenuOnClickOutside);
-      } else {
-        document.removeEventListener("click", this.closeMenuOnClickOutside);
-      }
-    },
-    closeMenuOnClickOutside(event) {
-      const menuElement = this.$refs.userMenu;
-      if (!menuElement.contains(event.target)) {
-        this.showMenu = false;
-        document.removeEventListener("click", this.closeMenuOnClickOutside);
-      }
     },
   },
 };

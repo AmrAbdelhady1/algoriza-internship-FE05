@@ -33,13 +33,20 @@
 <script>
 import BoyCardSvg from "../assets/svg/boyCardSvg.vue";
 import GirlCardSvg from "../assets/svg/girlCardSvg.vue";
+import { useStore } from "../stores/Store";
 
 export default {
   components: { BoyCardSvg, GirlCardSvg },
-  methods: {
-    hideCard() {
+  data(){
+    const store = useStore();
+    const hideCard = () => {
+      store.loggedOut();
       this.$emit("hide-card");
-    },
+    };
+
+    return{
+      hideCard,
+    }
   },
 };
 </script>

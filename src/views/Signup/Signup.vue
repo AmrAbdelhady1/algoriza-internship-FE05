@@ -84,9 +84,11 @@ import { ref } from "vue";
 import LogoSvg from "../../assets/svg/logoSvg.vue";
 import { useRouter } from "vue-router";
 import ShowPasswordSvg from "../../assets/svg/showPasswordSvg.vue";
+import { useStore } from "../../stores/Store";
 
 export default {
   data() {
+    const store = useStore();
     const router = useRouter();
     const signUpData = ref({
       email: "",
@@ -159,6 +161,7 @@ export default {
           const randomToken = generateRandomToken();
           localStorage.setItem("user", JSON.stringify(oldData));
           localStorage.setItem("token", randomToken);
+          store.loggedIn();
           router.push("/");
         }
       }
