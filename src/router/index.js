@@ -4,6 +4,7 @@ import Home from "../views/Home/Home.vue";
 import Signup from "../views/Signup/Signup.vue";
 import Signin from "../views/Signin/Signin.vue";
 import MyTrips from "../views/MyTrips/MyTrips.vue";
+import Checkout from "../views/Checkout/Checkout.vue";
 
 const routes = [
   {
@@ -19,6 +20,11 @@ const routes = [
         path: "/trips",
         name: "myTrips",
         component: MyTrips,
+      },
+      {
+        path: "/checkout",
+        name: "checkout",
+        component: Checkout,
       },
     ],
   },

@@ -1,5 +1,6 @@
 <template>
   <div
+    v-if="color !== 'hide'"
     :style="{ backgroundColor: color }"
     class="lg:px-[100px] md:px-[35px] px-[10px] pb-[60px] flex flex-wrap justify-between items-start"
   >
@@ -31,6 +32,7 @@
     </div>
   </div>
   <div
+    v-if="color !== 'hide'"
     class="w-full h-[40px] bg-[#EBEBEB] flex justify-end items-center px-[205px] gap-[6px]"
   >
     <CopyRightSvg />

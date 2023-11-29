@@ -22,7 +22,8 @@
   <WelcomeCard v-if="showCard" @hide-card="toggleCardChange" />
 </template>
 
-<script>
+<script setup>
+import { ref, onMounted } from "vue";
 import WarningMessage from "../../components/WarningMessage.vue";
 import WelcomeCard from "../../components/WelcomeCard.vue";
 import DreamVacations from "./components/DreamVacations.vue";
@@ -32,29 +33,16 @@ import NextTrip from "./components/NextTrip.vue";
 import PopularHotals from "./components/PopularHotals.vue";
 import { useStore } from "../../stores/Store";
 
-export default {
-  components: {
-    HeroBanner,
-    WarningMessage,
-    DreamVacations,
-    NextTrip,
-    PopularHotals,
-    FooterBanner,
-    WelcomeCard,
-  },
-  mounted() {
-    this.$emit("footerColor", "white");
-  },
-  data() {
-    const store = useStore();
-    return {
-      showCard: store.showCard,
-    };
-  },
-  methods: {
-    toggleCardChange() {
-      this.showCard = false;
-    },
-  },
+const emit = defineEmits(["footer-color", "show-links"]);
+const store = useStore();
+const showCard = ref(store.showCard);
+
+const toggleCardChange = () => {
+  showCard.value = false;
 };
+
+onMounted(() => {
+  emit("footer-color", "white");
+  emit("show-links", true);
+});
 </script>

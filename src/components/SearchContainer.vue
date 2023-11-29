@@ -3,55 +3,72 @@
     class="flex left-0 right-0 bottom-[-32px] absolute items-center justify-between gap-[15px] px-3 mx-[105px] bg-white h-[64px] shadow-hero rounded-lg"
   >
     <div
-      class="flex items-center w-[206px] p-3 gap-[10px] bg-[#F2F2F2] rounded relative"
+      class="flex items-center w-full p-3 gap-[10px] bg-[#F2F2F2] rounded relative"
     >
       <LocationSvg />
       <div
         class="cursor-pointer flex items-center justify-between w-full"
-        @click="toggleMenu"
+        @click="openCitiesMenu"
       >
         <p class="text-[#4F4F4F] text-[13px] tracking-[-0.26px]">
-          {{ selectedLocation || "Where are you going?" }}
+          {{ searchData.selectedCity?.name || "Where are you going?" }}
         </p>
-        <ArrowUpSvg v-if="showMenu" />
+        <ArrowUpSvg v-if="showCityMenu" />
         <ArrowDownSvg v-else />
       </div>
       <DropdownMenu
-        v-if="showMenu"
-        :data="data"
-        @item-selected="updateSelectedLocation"
+        v-if="showCityMenu"
+        :cityList="cityList"
+        @selected-city="handleSelectedCity"
         class="left-0 absolute top-[120%]"
       />
     </div>
-    <VueDatePicker />
-    <div
-      class="flex items-center gap-[10px] p-3 w-[148px] rounded bg-[#F2F2F2]"
-    >
+    <div class="flex items-center gap-[10px] p-3 w-full rounded bg-[#F2F2F2]">
+      <CalendarSvg />
+      <input
+        type="date"
+        name="checkIn"
+        :value="searchData.checkIn"
+        @input="handleChange"
+        placeholder="Check in date"
+        class="bg-transparent focus:outline-none w-full text-[#4F4F4F] text-[13px] tracking-[-0.26px]"
+      />
+    </div>
+    <div class="flex items-center gap-[10px] p-3 w-full rounded bg-[#F2F2F2]">
+      <CalendarSvg />
+      <input
+        type="date"
+        name="checkOut"
+        :value="searchData.checkOut"
+        @input="handleChange"
+        placeholder="Check out date"
+        class="bg-transparent focus:outline-none w-full text-[#4F4F4F] text-[13px] tracking-[-0.26px]"
+      />
+    </div>
+    <div class="flex items-center gap-[10px] p-3 w-full rounded bg-[#F2F2F2]">
       <GuestSvg />
       <input
         type="text"
-        name="guests"
-        :value="guests"
+        name="guest"
+        :value="searchData.guest"
         @input="handleChange"
         placeholder="Guests"
         class="bg-transparent focus:outline-none w-full text-[#4F4F4F] text-[13px] tracking-[-0.26px]"
       />
     </div>
-    <div
-      class="flex items-center gap-[10px] p-3 w-[148px] rounded bg-[#F2F2F2]"
-    >
+    <div class="flex items-center gap-[10px] p-3 w-full rounded bg-[#F2F2F2]">
       <RoomsSvg />
       <input
         type="text"
         name="rooms"
-        :value="rooms"
+        :value="searchData.rooms"
         @input="handleChange"
         placeholder="Rooms"
         class="bg-transparent focus:outline-none w-full text-[#4F4F4F] text-[13px] tracking-[-0.26px]"
       />
     </div>
     <button
-      @click="logData"
+      @click="handleSubmit"
       class="text-white text-[15px] font-medium leading-5 tracking-[0.3px] bg-[#2F80ED] rounded-md py-3 px-[18px] w-[134px] hover:bg-white hover:text-[#2F80ED] border-2 border-[#2F80ED]"
     >
       Search
@@ -59,52 +76,74 @@
   </div>
 </template>
 
-<script>
-import heroBanner from "../assets/images/heroBanner.png";
+<script setup>
+import { onMounted, ref } from "vue";
+import { getData } from "../axios";
+import { useRouter } from "vue-router";
+import { useStore } from "../stores/Store";
+
+import DropdownMenu from "./DropdownMenu.vue";
 import ArrowDownSvg from "../assets/svg/arrowDownSvg.vue";
 import ArrowUpSvg from "../assets/svg/arrowUpSvg.vue";
 import GuestSvg from "../assets/svg/guestSvg.vue";
 import RoomsSvg from "../assets/svg/roomsSvg.vue";
 import LocationSvg from "../assets/svg/locationSvg.vue";
-import DropdownMenu from "./DropdownMenu.vue";
-import VueDatePicker from "@vuepic/vue-datepicker";
-import "@vuepic/vue-datepicker/dist/main.css";
+import CalendarSvg from "../assets/svg/calendarSvg.vue";
 
-export default {
-  components: {
-    LocationSvg,
-    ArrowDownSvg,
-    ArrowUpSvg,
-    DropdownMenu,
-    GuestSvg,
-    RoomsSvg,
-    VueDatePicker,
-  },
-  data() {
-    return {
-      heroBanner: heroBanner,
-      showMenu: false,
-      data: ["Cairo", "Giza", "Aswan", "Luxor"],
-      selectedLocation: null,
-      guests: "",
-      rooms: "",
-    };
-  },
-  methods: {
-    toggleMenu() {
-      this.showMenu = !this.showMenu;
-    },
-    updateSelectedLocation(item) {
-      this.selectedLocation = item;
-      this.showMenu = false;
-    },
-    handleChange(event) {
-      this[event.target.name] = event.target.value;
-    },
-    logData() {
-      console.log(this.guests);
-      console.log(this.rooms);
-    },
-  },
+const store = useStore();
+const router = useRouter();
+const showCityMenu = ref(false);
+const cityList = ref([]);
+const searchData = ref({
+  selectedCity: null,
+  checkIn: "",
+  checkOut: "",
+  guest: "",
+  rooms: "",
+});
+
+onMounted(async () => {
+  const params = { query: "man" };
+  const url = "searchDestination";
+
+  // const response = await getData(params, url);
+
+  // if (response) {
+  //   cityList.value = response.data.data;
+  // }
+});
+
+const openCitiesMenu = async () => {
+  showCityMenu.value = !showCityMenu.value;
+};
+
+const handleSelectedCity = (item) => {
+  searchData.value.selectedCity = item;
+  showCityMenu.value = false;
+};
+const handleChange = (event) => {
+  searchData.value[event.target.name] = event.target.value;
+};
+
+const handleSubmit = async () => {
+  const params = {
+    dest_id: searchData.value.selectedCity.dest_id,
+    search_type: searchData.value.selectedCity.dest_type,
+    arrival_date: searchData.value.checkIn,
+    departure_date: searchData.value.checkOut,
+    adults: searchData.value.guest,
+    room_qty: searchData.value.rooms,
+    page_number: "1",
+    languagecode: "en-us",
+    currency_code: "AED",
+  };
+  const url = "searchHotels";
+
+  const response = await getData(params, url);
+
+  if (response) {
+    store.getHotels(response.data.data);
+    router.push("");
+  }
 };
 </script>

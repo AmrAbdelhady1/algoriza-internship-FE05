@@ -9,7 +9,7 @@
         my Dream Place
       </p>
     </router-link>
-    <div class="flex items-center gap-12 text-[#333333] tracking-[0.32px]">
+    <div v-if="showLinks" class="flex items-center gap-12 text-[#333333] tracking-[0.32px]">
       <p
         v-for="(item, index) in navigationItems"
         :key="index"
@@ -20,6 +20,7 @@
         {{ item }}
       </p>
     </div>
+    <div v-else></div>
     <div v-if="isLoggedin" class="flex items-center gap-[22px]">
       <NotificationSvg />
       <div class="relative cursor-pointer" @click="toggleMenu">
@@ -37,35 +38,29 @@
   </nav>
 </template>
 
-<script>
+<script setup>
+import { ref } from "vue";
 import LogoSvg from "../assets/svg/logoSvg.vue";
 import NotificationSvg from "../assets/svg/notificationSvg.vue";
 import ProfilePicSvg from "../assets/svg/profilePicSvg.vue";
 import UserMenu from "./UserMenu.vue";
 
-export default {
-  components: {
-    LogoSvg,
-    NotificationSvg,
-    ProfilePicSvg,
-    UserMenu,
-  },
-  data() {
-    const isLoggedin = localStorage.getItem("token") ? true : false;
-    return {
-      navigationItems: ["Home", "Discover", "Activities", "About", "Contact"],
-      hoveredIndex: -1,
-      isLoggedin,
-      showMenu: false,
-    };
-  },
-  methods: {
-    setHovered(index) {
-      this.hoveredIndex = index;
-    },
-    toggleMenu() {
-      this.showMenu = !this.showMenu;
-    },
-  },
+const isLoggedin = localStorage.getItem("token") ? true : false;
+const navigationItems = ["Home", "Discover", "Activities", "About", "Contact"];
+const hoveredIndex = ref(-1);
+const showMenu = ref(false);
+
+const setHovered = (index) => {
+  hoveredIndex.value = index;
 };
+const toggleMenu = () => {
+  showMenu.value = !showMenu.value;
+};
+
+defineProps({
+  showLinks: {
+    type: Boolean,
+    default: true,
+  },
+});
 </script>

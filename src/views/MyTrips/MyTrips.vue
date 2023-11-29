@@ -42,9 +42,7 @@
                 Includes taxes and fees
               </p>
               <button
-                class="text-white text-[15px] tracking-[0.3px] bg-[#2F80ED] rounded-md py-[10px] px-[18px] border border-[#2F80ED]
-                hover:bg-white hover:text-[#2F80ED]
-                "
+                class="text-white text-[15px] tracking-[0.3px] bg-[#2F80ED] rounded-md py-[10px] px-[18px] border border-[#2F80ED] hover:bg-white hover:text-[#2F80ED]"
               >
                 View trip details
               </button>
@@ -57,13 +55,14 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import WarningMessage from "../../components/WarningMessage.vue";
+import { onMounted } from "vue";
 
-export default {
-  mounted() {
-    this.$emit("footerColor", "#F4F4F4");
-  },
-  components: { WarningMessage },
-};
+const emit = defineEmits(["footer-color", "show-links"]);
+
+onMounted(() => {
+  emit("footer-color", "#F4F4F4");
+  emit("show-links", true);
+});
 </script>

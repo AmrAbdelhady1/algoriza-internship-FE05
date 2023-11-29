@@ -37,16 +37,16 @@ import { useStore } from "../stores/Store";
 
 export default {
   components: { BoyCardSvg, GirlCardSvg },
-  data(){
+  data() {
     const store = useStore();
     const hideCard = () => {
       store.loggedOut();
       this.$emit("hide-card");
     };
 
-    return{
+    return {
       hideCard,
-    }
+    };
   },
 };
 </script>
