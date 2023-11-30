@@ -1,4 +1,5 @@
 <template>
+  <Loader />
   <div
     class="h-[68px] w-full flex items-center gap-1 lg:px-[100px] md:px-[35px] px-[10px] mb-[92px]"
   >
@@ -65,6 +66,7 @@ import { useRouter } from "vue-router";
 import LogoSvg from "../../assets/svg/logoSvg.vue";
 import ShowPasswordSvg from "../../assets/svg/showPasswordSvg.vue";
 import { useStore } from "../../stores/Store";
+import Loader from "../../components/Loader.vue";
 
 export default {
   data() {
@@ -97,10 +99,16 @@ export default {
         (user) => user.password === signInData.value.password
       );
       if (isEmailRegistered && isPasswordRegistered) {
+        store.updateLoader();
         const randomToken = generateRandomToken();
         localStorage.setItem("token", randomToken);
         store.loggedIn();
-        router.push("/");
+
+        setTimeout(() => {
+          store.updateLoader();
+          router.push("/");
+        }, 2000);
+
       } else if (isEmailRegistered) {
         errors.value.isPasswordRegistered = "Password is wrong";
       } else {
@@ -123,6 +131,6 @@ export default {
       }
     },
   },
-  components: { LogoSvg, ShowPasswordSvg },
+  components: { LogoSvg, ShowPasswordSvg, Loader },
 };
 </script>

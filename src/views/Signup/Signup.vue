@@ -1,4 +1,5 @@
 <template>
+  <Loader />
   <div
     class="h-[68px] w-full flex items-center gap-1 lg:px-[100px] md:px-[35px] px-[10px] mb-[92px]"
   >
@@ -85,6 +86,7 @@ import LogoSvg from "../../assets/svg/logoSvg.vue";
 import { useRouter } from "vue-router";
 import ShowPasswordSvg from "../../assets/svg/showPasswordSvg.vue";
 import { useStore } from "../../stores/Store";
+import Loader from "../../components/Loader.vue";
 
 export default {
   data() {
@@ -153,6 +155,7 @@ export default {
         if (isEmailRegistered) {
           errors.value.isEmailRegistered = "Email is already registered!";
         } else {
+          store.updateLoader();
           errors.value.isEmailRegistered = null;
           oldData.push({
             email: signUpData.value.email,
@@ -162,7 +165,10 @@ export default {
           localStorage.setItem("user", JSON.stringify(oldData));
           localStorage.setItem("token", randomToken);
           store.loggedIn();
-          router.push("/");
+          setTimeout(() => {
+            store.updateLoader();
+            router.push("/");
+          }, 2000);
         }
       }
     };
@@ -190,6 +196,6 @@ export default {
       }
     },
   },
-  components: { LogoSvg, ShowPasswordSvg },
+  components: { LogoSvg, ShowPasswordSvg, Loader },
 };
 </script>

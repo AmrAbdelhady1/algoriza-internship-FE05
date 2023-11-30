@@ -1,4 +1,5 @@
 <template>
+  <Loader />
   <Navbar :showLinks="showLinks" class="lg:px-[100px] md:px-[35px] px-[10px]" />
   <main>
     <router-view
@@ -14,6 +15,7 @@ import { ref } from "vue";
 
 import Footer from "./Footer.vue";
 import Navbar from "./Navbar.vue";
+import Loader from "./Loader.vue";
 
 const footerColor = ref("white");
 const showLinks = ref(true);

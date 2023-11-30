@@ -42,6 +42,7 @@ import { useStore } from "../stores/Store";
 const store = useStore();
 
 const signOut = () => {
+  store.updateLoader();
   localStorage.removeItem("token");
   store.loggedOut();
   setTimeout(() => {

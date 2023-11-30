@@ -4,6 +4,7 @@ export const useStore = defineStore("taskStore", {
   state: () => ({
     showCard: false,
     hotels: [],
+    openLoader: false,
   }),
   actions: {
     getHotels(data) {
@@ -12,8 +13,11 @@ export const useStore = defineStore("taskStore", {
     loggedIn() {
       this.showCard = true;
     },
-    async loggedOut() {
+    loggedOut() {
       this.showCard = false;
+    },
+    updateLoader() {
+      this.openLoader = !this.openLoader;
     },
   },
 });
