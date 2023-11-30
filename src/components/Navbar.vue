@@ -25,7 +25,7 @@
       <NotificationSvg />
       <div class="relative cursor-pointer" @click="toggleMenu">
         <ProfilePicSvg />
-        <UserMenu v-if="showMenu" class="absolute right-0 top-[140%]" />
+        <UserMenu v-if="showMenu" class="absolute right-0 top-[110%]" />
       </div>
     </div>
     <router-link

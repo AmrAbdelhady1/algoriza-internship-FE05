@@ -10,9 +10,11 @@
       <div>
         <RoomData />
         <PaymentOptions />
+        <BookingInformation />
       </div>
       <div>
-
+          <HotelInformation />
+          <PriceDetails />
       </div>
     </div>
   </div>
@@ -23,6 +25,9 @@ import { onMounted } from "vue";
 import WarningMessage from "../../components/WarningMessage.vue";
 import RoomData from "./components/RoomData.vue";
 import PaymentOptions from "./components/PaymentOptions.vue";
+import BookingInformation from "./components/BookingInformation.vue";
+import HotelInformation from "./components/HotelInformation.vue";
+import PriceDetails from "./components/PriceDetails.vue";
 
 const emit = defineEmits(["footer-color", "show-links"]);
 
