@@ -89,6 +89,7 @@ import GuestSvg from "../assets/svg/guestSvg.vue";
 import RoomsSvg from "../assets/svg/roomsSvg.vue";
 import LocationSvg from "../assets/svg/locationSvg.vue";
 import CalendarSvg from "../assets/svg/calendarSvg.vue";
+import { toast } from "vue3-toastify";
 
 const store = useStore();
 const router = useRouter();
@@ -106,7 +107,7 @@ onMounted(async () => {
   const params = { query: "man" };
   const url = "searchDestination";
 
-  // const response = await getData(params, url);
+  // const response = await getData(params, url, false);
 
   // if (response) {
   //   cityList.value = response.data.data;
@@ -125,25 +126,46 @@ const handleChange = (event) => {
   searchData.value[event.target.name] = event.target.value;
 };
 
+const validateSearch = () => {
+  let isValid = true;
+
+  if (searchData.value.selectedCity === null) {
+    toast.error("Please select the city");
+    isValid = false;
+  } else if (searchData.value.checkIn === "") {
+    toast.error("Please select check in data");
+    isValid = false;
+  } else if (searchData.value.checkOut === "") {
+    toast.error("Please select check out data");
+    isValid = false;
+  }
+
+  return isValid;
+};
+
 const handleSubmit = async () => {
-  const params = {
-    dest_id: searchData.value.selectedCity.dest_id,
-    search_type: searchData.value.selectedCity.dest_type,
-    arrival_date: searchData.value.checkIn,
-    departure_date: searchData.value.checkOut,
-    adults: searchData.value.guest,
-    room_qty: searchData.value.rooms,
-    page_number: "1",
-    languagecode: "en-us",
-    currency_code: "AED",
-  };
-  const url = "searchHotels";
+  const isValid = validateSearch();
 
-  const response = await getData(params, url);
+  if (isValid) {
+    const params = {
+      dest_id: searchData.value.selectedCity.dest_id,
+      search_type: searchData.value.selectedCity.dest_type,
+      arrival_date: searchData.value.checkIn,
+      departure_date: searchData.value.checkOut,
+      adults: searchData.value.guest,
+      room_qty: searchData.value.rooms,
+      page_number: "1",
+      languagecode: "en-us",
+      currency_code: "AED",
+    };
+    const url = "searchHotels";
 
-  if (response) {
-    store.getHotels(response.data.data);
-    router.push("");
+    const response = await getData(params, url, true);
+
+    if (response) {
+      store.getHotels(response.data.data);
+      // router.push("");
+    }
   }
 };
 </script>
