@@ -18,7 +18,7 @@ defineProps({
     default: [],
   },
 });
-const emit = defineEmits(["footer-color", "show-links"]);
+const emit = defineEmits(["selected-city"]);
 
 const selectCity = (city) => {
   emit("selected-city", city);

@@ -6,6 +6,7 @@ import Signin from "../views/Signin/Signin.vue";
 import MyTrips from "../views/MyTrips/MyTrips.vue";
 import Checkout from "../views/Checkout/Checkout.vue";
 import HotelDetails from "../views/HotelDetails/HotelDetails.vue";
+import SearchResults from "../views/SearchResults/SearchResults.vue";
 
 const routes = [
   {
@@ -18,6 +19,16 @@ const routes = [
         component: Home,
       },
       {
+        path: "/search-results",
+        name: "searchResults",
+        component: SearchResults,
+      },
+      {
+        path: "/hotel-details",
+        name: "hotelDetails",
+        component: HotelDetails,
+      },
+      {
         path: "/trips",
         name: "myTrips",
         component: MyTrips,
@@ -26,11 +37,6 @@ const routes = [
         path: "/checkout",
         name: "checkout",
         component: Checkout,
-      },
-      {
-        path: "/hotel-details",
-        name: "hotelDetails",
-        component: HotelDetails,
       },
     ],
   },

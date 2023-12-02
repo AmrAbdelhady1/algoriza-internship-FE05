@@ -79,28 +79,40 @@
 <script setup>
 import { onMounted, ref } from "vue";
 import { getData } from "../axios";
+import { toast } from "vue3-toastify";
 import { useRouter } from "vue-router";
-import { useStore } from "../stores/Store";
 
 import DropdownMenu from "./DropdownMenu.vue";
-import ArrowDownSvg from "../assets/svg/arrowDownSvg.vue";
-import ArrowUpSvg from "../assets/svg/arrowUpSvg.vue";
 import GuestSvg from "../assets/svg/guestSvg.vue";
 import RoomsSvg from "../assets/svg/roomsSvg.vue";
+import ArrowUpSvg from "../assets/svg/arrowUpSvg.vue";
 import LocationSvg from "../assets/svg/locationSvg.vue";
 import CalendarSvg from "../assets/svg/calendarSvg.vue";
-import { toast } from "vue3-toastify";
+import ArrowDownSvg from "../assets/svg/arrowDownSvg.vue";
 
-const store = useStore();
+const emit = defineEmits(["search-data"]);
+
+const { queryData } = defineProps({
+  queryData: {
+    default: null,
+  },
+});
+
 const router = useRouter();
 const showCityMenu = ref(false);
 const cityList = ref([]);
 const searchData = ref({
-  selectedCity: null,
-  checkIn: "",
-  checkOut: "",
-  guest: "",
-  rooms: "",
+  selectedCity: queryData
+    ? {
+        dest_id: queryData.dest_id,
+        search_type: queryData.search_type,
+        name: queryData.selectedCityName,
+      }
+    : null,
+  checkIn: queryData?.arrival_date || "",
+  checkOut: queryData?.departure_date || "",
+  guest: queryData?.adults || "",
+  rooms: queryData?.room_qty || "",
 });
 
 onMounted(async () => {
@@ -143,29 +155,15 @@ const validateSearch = () => {
   return isValid;
 };
 
-const handleSubmit = async () => {
-  const isValid = validateSearch();
-
-  if (isValid) {
-    const params = {
-      dest_id: searchData.value.selectedCity.dest_id,
-      search_type: searchData.value.selectedCity.dest_type,
-      arrival_date: searchData.value.checkIn,
-      departure_date: searchData.value.checkOut,
-      adults: searchData.value.guest,
-      room_qty: searchData.value.rooms,
-      page_number: "1",
-      languagecode: "en-us",
-      currency_code: "AED",
-    };
-    const url = "searchHotels";
-
-    const response = await getData(params, url, true);
-
-    if (response) {
-      store.getHotels(response.data.data);
-      // router.push("");
+const handleSubmit = () => {
+  if(localStorage.getItem("token")){
+    const isValid = validateSearch();
+  
+    if (isValid) {
+      emit("search-data", searchData);
     }
+  }else{
+    router.push("/reg")
   }
 };
 </script>

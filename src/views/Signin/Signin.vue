@@ -60,7 +60,7 @@
   </form>
 </template>
 
-<script>
+<script setup>
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 import LogoSvg from "../../assets/svg/logoSvg.vue";
@@ -68,69 +68,52 @@ import ShowPasswordSvg from "../../assets/svg/showPasswordSvg.vue";
 import { useStore } from "../../stores/Store";
 import Loader from "../../components/Loader.vue";
 
-export default {
-  data() {
-    const store = useStore();
-    const router = useRouter();
-    const signInData = ref({
-      email: "",
-      password: "",
-    });
-    const errors = ref({
-      isEmailRegistered: null,
-      isPasswordRegistered: null,
-    });
+const store = useStore();
+const router = useRouter();
+const signInData = ref({
+  email: "",
+  password: "",
+});
+const errors = ref({
+  isEmailRegistered: null,
+  isPasswordRegistered: null,
+});
+const showPassword = ref(false);
 
-    const generateRandomToken = () => {
-      const randomBytes = new Uint8Array(16);
-      crypto.getRandomValues(randomBytes);
-      const token = Array.from(randomBytes)
-        .map((byte) => byte.toString(16).padStart(2, "0"))
-        .join("");
-      return token;
-    };
+const submitForm = () => {
+  const oldData = JSON.parse(localStorage.getItem("user")) || [];
+  const isEmailRegistered = oldData.some(
+    (user) => user.email === signInData.value.email
+  );
+  const isPasswordRegistered = oldData.some(
+    (user) => user.password === signInData.value.password
+  );
+  if (isEmailRegistered && isPasswordRegistered) {
+    store.updateLoader();
 
-    const submitForm = () => {
-      const oldData = JSON.parse(localStorage.getItem("user")) || [];
-      const isEmailRegistered = oldData.some(
-        (user) => user.email === signInData.value.email
-      );
-      const isPasswordRegistered = oldData.some(
-        (user) => user.password === signInData.value.password
-      );
-      if (isEmailRegistered && isPasswordRegistered) {
-        store.updateLoader();
-        const randomToken = generateRandomToken();
-        localStorage.setItem("token", randomToken);
-        store.loggedIn();
+    const token = oldData.find(
+      (user) => user.email === signInData.value.email
+    ).token;
 
-        setTimeout(() => {
-          store.updateLoader();
-          router.push("/");
-        }, 2000);
+    localStorage.setItem("token", token);
+    store.loggedIn();
 
-      } else if (isEmailRegistered) {
-        errors.value.isPasswordRegistered = "Password is wrong";
-      } else {
-        errors.value.isEmailRegistered = "Email address is wrong";
-      }
-    };
-    return {
-      signInData,
-      errors,
-      submitForm,
-      showPassword: false,
-    };
-  },
-  methods: {
-    togglePasswordVisibility() {
-      this.showPassword = !this.showPassword;
-      const input = document.getElementById("password");
-      if (input) {
-        input.type = this.showPassword ? "text" : "password";
-      }
-    },
-  },
-  components: { LogoSvg, ShowPasswordSvg, Loader },
+    setTimeout(() => {
+      store.updateLoader();
+      router.push("/");
+    }, 2000);
+  } else if (isEmailRegistered) {
+    errors.value.isPasswordRegistered = "Password is wrong";
+  } else {
+    errors.value.isEmailRegistered = "Email address is wrong";
+  }
+};
+
+const togglePasswordVisibility = () => {
+  showPassword.value = !showPassword.value;
+  const input = document.getElementById("password");
+  if (input) {
+    input.type = showPassword.value ? "text" : "password";
+  }
 };
 </script>

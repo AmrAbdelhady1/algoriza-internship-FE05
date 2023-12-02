@@ -80,7 +80,7 @@
   </form>
 </template>
 
-<script>
+<script setup>
 import { ref } from "vue";
 import LogoSvg from "../../assets/svg/logoSvg.vue";
 import { useRouter } from "vue-router";
@@ -88,114 +88,104 @@ import ShowPasswordSvg from "../../assets/svg/showPasswordSvg.vue";
 import { useStore } from "../../stores/Store";
 import Loader from "../../components/Loader.vue";
 
-export default {
-  data() {
-    const store = useStore();
-    const router = useRouter();
-    const signUpData = ref({
-      email: "",
-      password: "",
-      confirmPassword: "",
-    });
-    const errors = ref({
-      email: null,
-      password: null,
-      confirmPassword: null,
-      isEmailRegistered: null,
-    });
+const store = useStore();
+const router = useRouter();
+const signUpData = ref({
+  email: "",
+  password: "",
+  confirmPassword: "",
+});
+const errors = ref({
+  email: null,
+  password: null,
+  confirmPassword: null,
+  isEmailRegistered: null,
+});
+const showPassword = ref(false);
+const showConfirmPassword = ref(false);
 
-    const validateEmail = () => {
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!emailRegex.test(signUpData.value.email)) {
-        errors.value.email = "Invalid email format";
-      } else {
-        errors.value.email = null;
-      }
-    };
+const validateEmail = () => {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(signUpData.value.email)) {
+    errors.value.email = "Invalid email format";
+  } else {
+    errors.value.email = null;
+  }
+};
 
-    const validatePassword = () => {
-      if (signUpData.value.password.length < 6) {
-        errors.value.password = "Password must be at least 6 characters long";
-      } else {
-        errors.value.password = null;
-      }
-    };
+const validatePassword = () => {
+  if (signUpData.value.password.length < 6) {
+    errors.value.password = "Password must be at least 6 characters long";
+  } else {
+    errors.value.password = null;
+  }
+};
 
-    const validateConfirmPassword = () => {
-      if (signUpData.value.confirmPassword !== signUpData.value.password) {
-        errors.value.confirmPassword = "Passwords do not match";
-      } else {
-        errors.value.confirmPassword = null;
-      }
-    };
+const validateConfirmPassword = () => {
+  if (signUpData.value.confirmPassword !== signUpData.value.password) {
+    errors.value.confirmPassword = "Passwords do not match";
+  } else {
+    errors.value.confirmPassword = null;
+  }
+};
 
-    const generateRandomToken = () => {
-      const randomBytes = new Uint8Array(16);
-      crypto.getRandomValues(randomBytes);
-      const token = Array.from(randomBytes)
-        .map((byte) => byte.toString(16).padStart(2, "0"))
-        .join("");
-      return token;
-    };
+const generateRandomToken = () => {
+  const randomBytes = new Uint8Array(16);
+  crypto.getRandomValues(randomBytes);
+  const token = Array.from(randomBytes)
+    .map((byte) => byte.toString(16).padStart(2, "0"))
+    .join("");
+  return token;
+};
 
-    const submitForm = () => {
-      validateEmail();
-      validatePassword();
-      validateConfirmPassword();
+const submitForm = () => {
+  validateEmail();
+  validatePassword();
+  validateConfirmPassword();
 
-      if (
-        !errors.value.email &&
-        !errors.value.password &&
-        !errors.value.confirmPassword
-      ) {
-        const oldData = JSON.parse(localStorage.getItem("user")) || [];
-        const isEmailRegistered = oldData.some(
-          (user) => user.email === signUpData.value.email
-        );
-        if (isEmailRegistered) {
-          errors.value.isEmailRegistered = "Email is already registered!";
-        } else {
-          store.updateLoader();
-          errors.value.isEmailRegistered = null;
-          oldData.push({
-            email: signUpData.value.email,
-            password: signUpData.value.password,
-          });
-          const randomToken = generateRandomToken();
-          localStorage.setItem("user", JSON.stringify(oldData));
-          localStorage.setItem("token", randomToken);
-          store.loggedIn();
-          setTimeout(() => {
-            store.updateLoader();
-            router.push("/");
-          }, 2000);
-        }
-      }
-    };
-    return {
-      signUpData,
-      errors,
-      submitForm,
-      showPassword: false,
-      showConfirmPassword: false,
-    };
-  },
-  methods: {
-    togglePasswordVisibility() {
-      this.showPassword = !this.showPassword;
-      const input = document.getElementById("password");
-      if (input) {
-        input.type = this.showPassword ? "text" : "password";
-      }
-    },
-    toggleConfirmPasswordVisibility() {
-      this.showConfirmPassword = !this.showConfirmPassword;
-      const input = document.getElementById("confirmPassword");
-      if (input) {
-        input.type = this.showConfirmPassword ? "text" : "password";
-      }
-    },
-  },
-  components: { LogoSvg, ShowPasswordSvg, Loader },
+  if (
+    !errors.value.email &&
+    !errors.value.password &&
+    !errors.value.confirmPassword
+  ) {
+    const oldData = JSON.parse(localStorage.getItem("user")) || [];
+    const isEmailRegistered = oldData.some(
+      (user) => user.email === signUpData.value.email
+    );
+    if (isEmailRegistered) {
+      errors.value.isEmailRegistered = "Email is already registered!";
+    } else {
+      store.updateLoader();
+      const randomToken = generateRandomToken();
+      errors.value.isEmailRegistered = null;
+      oldData.push({
+        email: signUpData.value.email,
+        password: signUpData.value.password,
+        token: randomToken,
+      });
+      localStorage.setItem("user", JSON.stringify(oldData));
+      localStorage.setItem("token", randomToken);
+      store.loggedIn();
+      setTimeout(() => {
+        store.updateLoader();
+        router.push("/");
+      }, 2000);
+    }
+  }
+};
+
+const togglePasswordVisibility = () => {
+  showPassword.value = !showPassword.value;
+  const input = document.getElementById("password");
+  if (input) {
+    input.type = showPassword.value ? "text" : "password";
+  }
+};
+const toggleConfirmPasswordVisibility = () => {
+  showConfirmPassword.value = !showConfirmPassword.value;
+  const input = document.getElementById("confirmPassword");
+  if (input) {
+    input.type = showConfirmPassword.value ? "text" : "password";
+  }
 };
 </script>

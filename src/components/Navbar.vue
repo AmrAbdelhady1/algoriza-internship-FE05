@@ -1,15 +1,29 @@
 <template>
-  <nav class="flex items-center justify-between h-[68px] bg-white">
+  <nav
+    class="flex items-center justify-between h-[68px]"
+    :class="{
+      'bg-[#2969BF]': showLinks === 'blue',
+    }"
+  >
     <router-link
       :to="{ name: 'home' }"
       class="flex items-center gap-1 cursor-pointer"
     >
       <LogoSvg />
-      <p class="text-[#1B1F2D] text-lg font-medium tracking-[0.36px]">
+      <p
+        class="text-[#1B1F2D] text-lg font-medium tracking-[0.36px]"
+        :class="{
+          'text-white': showLinks === 'blue',
+        }"
+      >
         my Dream Place
       </p>
     </router-link>
-    <div v-if="showLinks" class="flex items-center gap-12 text-[#333333] tracking-[0.32px]">
+    <div
+      v-if="showLinks"
+      class="flex items-center gap-12 text-[#333333] tracking-[0.32px]"
+      :class="{ 'text-white': showLinks === 'blue' }"
+    >
       <p
         v-for="(item, index) in navigationItems"
         :key="index"
@@ -59,7 +73,6 @@ const toggleMenu = () => {
 
 defineProps({
   showLinks: {
-    type: Boolean,
     default: true,
   },
 });

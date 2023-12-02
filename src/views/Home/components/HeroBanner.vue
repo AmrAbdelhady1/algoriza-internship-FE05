@@ -13,21 +13,9 @@
       </p>
       <p>information and inspiration from us</p>
     </div>
-
-    <SearchContainer />
   </div>
 </template>
 
-<script>
+<script setup>
 import heroBanner from "../../../assets/images/heroBanner.png";
-import SearchContainer from "../../../components/SearchContainer.vue";
-
-export default {
-  data() {
-    return {
-      heroBanner: heroBanner,
-    };
-  },
-  components: { SearchContainer },
-};
 </script>

@@ -8,7 +8,7 @@ export const getData = async (params, url, isLoader) => {
     url: `https://booking-com15.p.rapidapi.com/api/v1/hotels/${url}`,
     params: { ...params },
     headers: {
-      "X-RapidAPI-Key": "36cc29f680msh644618b9ef34857p132d36jsnb0c335893ec6",
+      "X-RapidAPI-Key": "05a545a2d6msh5d2f6ed8625837ep1e20b8jsn25622160cefd",
       "X-RapidAPI-Host": "booking-com15.p.rapidapi.com",
     },
   };
