@@ -57,13 +57,10 @@
 
 <script setup>
 import { onMounted } from "vue";
-import { useStore } from "../../stores/Store";
 import WarningMessage from "../../components/WarningMessage.vue";
 
 const emit = defineEmits(["footer-color", "show-links"]);
-const store = useStore();
 onMounted(() => {
-  console.log("amr",store.hotels)
   emit("footer-color", "#F4F4F4");
   emit("show-links", true);
 });

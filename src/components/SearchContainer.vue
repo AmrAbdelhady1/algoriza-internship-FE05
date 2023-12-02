@@ -104,7 +104,7 @@ const searchData = ref({
 });
 
 onMounted(async () => {
-  const params = { query: "man" };
+  const params = { query: "egypt" };
   const url = "searchDestination";
 
   // const response = await getData(params, url, false);

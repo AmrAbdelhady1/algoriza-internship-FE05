@@ -5,6 +5,7 @@ import Signup from "../views/Signup/Signup.vue";
 import Signin from "../views/Signin/Signin.vue";
 import MyTrips from "../views/MyTrips/MyTrips.vue";
 import Checkout from "../views/Checkout/Checkout.vue";
+import HotelDetails from "../views/HotelDetails/HotelDetails.vue";
 
 const routes = [
   {
@@ -25,6 +26,11 @@ const routes = [
         path: "/checkout",
         name: "checkout",
         component: Checkout,
+      },
+      {
+        path: "/hotel-details",
+        name: "hotelDetails",
+        component: HotelDetails,
       },
     ],
   },
