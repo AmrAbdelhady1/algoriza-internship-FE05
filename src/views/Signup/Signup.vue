@@ -82,11 +82,12 @@
 
 <script setup>
 import { ref } from "vue";
-import LogoSvg from "../../assets/svg/logoSvg.vue";
 import { useRouter } from "vue-router";
-import ShowPasswordSvg from "../../assets/svg/showPasswordSvg.vue";
 import { useStore } from "../../stores/Store";
+
 import Loader from "../../components/Loader.vue";
+import LogoSvg from "../../assets/svg/logoSvg.vue";
+import ShowPasswordSvg from "../../assets/svg/showPasswordSvg.vue";
 
 const store = useStore();
 const router = useRouter();
@@ -162,6 +163,7 @@ const submitForm = () => {
         email: signUpData.value.email,
         password: signUpData.value.password,
         token: randomToken,
+        hotels: [],
       });
       localStorage.setItem("user", JSON.stringify(oldData));
       localStorage.setItem("token", randomToken);

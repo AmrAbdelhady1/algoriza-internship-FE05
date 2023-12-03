@@ -6,9 +6,9 @@
       height="240"
       frameborder="0"
       class="rounded-md mb-[35px]"
-      src="https://www.google.com/maps/embed/v1/place?key=AIzaSyCkITmue8kQF8GpYdM1C23-R1UJn6KiCzA&q=London"
-    >
-    </iframe>
+      :src="mapUrl"
+    ></iframe>
+
     <p class="text-[#181818] text-lg font-medium tracking-[0.18px]">
       Explore the area
     </p>
@@ -58,4 +58,15 @@
 <script setup>
 import PlaneSvg from "../../../assets/svg/planeSvg.vue";
 import GrayLocationSvg from "../../../assets/svg/grayLocationSvg.vue";
+
+const {latitude, longitude} = defineProps({
+  latitude: {
+    default: 0,
+  },
+  longitude: {
+    default: 0,
+  },
+});
+
+const mapUrl = `https://maps.google.com/maps?q=${latitude},${longitude}&z=15&output=embed`;
 </script>

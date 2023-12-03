@@ -15,11 +15,6 @@
           <h1 class="text-[#1A1A1A] text-xl font-medium">
             {{ hotel?.property?.name }}
           </h1>
-          <!-- <p
-            class="bg-[#EB5757] px-2 rounded-md text-white text-[13px] font-medium py-1"
-          >
-            Book now and receive 15% off
-          </p> -->
         </div>
 
         <div class="flex items-center mb-2">
@@ -40,6 +35,7 @@
 
         <div class="flex items-end justify-between w-full">
           <button
+            @click="handleHotelSelection(hotel)"
             class="text-white text-[15px] tracking-[0.3px] bg-[#2F80ED] rounded-md h-[40px] px-[18px] border border-[#2F80ED] hover:bg-white hover:text-[#2F80ED]"
           >
             See availability
@@ -47,7 +43,7 @@
           <div class="flex flex-col items-end">
             <p class="text-[#333333] text-xl font-medium tracking-[0.2px] mb-1">
               <span
-              v-if="hotel?.property?.priceBreakdown?.strikethroughPrice"
+                v-if="hotel?.property?.priceBreakdown?.strikethroughPrice"
                 class="text-[#EB5757] text-sm line-through tracking-[0.14px]"
                 >{{
                   hotel?.property?.priceBreakdown?.strikethroughPrice?.currency
@@ -74,12 +70,35 @@
 </template>
 
 <script setup>
-import searchHotelImg from "../../../assets/images/searchHotel.png";
-import RevieweRates from "../../../components/RevieweRates.vue";
+import { useRouter } from "vue-router";
 
-defineProps({
+import RevieweRates from "../../../components/RevieweRates.vue";
+import searchHotelImg from "../../../assets/images/searchHotel.png";
+
+const { arrival_date, departure_date } = defineProps({
   hotels: {
     default: [],
   },
+  arrival_date: {
+    default: "",
+  },
+  departure_date: {
+    default: "",
+  },
 });
+const router = useRouter();
+
+const handleHotelSelection = (hotel) => {
+  router.push({
+    name: "hotelDetails",
+    params: { id: hotel?.property?.id },
+    query: {
+      reviewScore: hotel?.property?.reviewScore,
+      reviewCount: hotel?.property?.reviewCount,
+      price: hotel?.property?.priceBreakdown?.grossPrice?.value,
+      arrival_date,
+      departure_date,
+    },
+  });
+};
 </script>

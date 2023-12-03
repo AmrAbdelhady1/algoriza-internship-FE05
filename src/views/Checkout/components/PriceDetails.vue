@@ -10,7 +10,7 @@
       class="flex items-center justify-between px-[18px] mb-3 text-[#4F4F4F] text-sm leading-5 tracking-[0.14px]"
     >
       <p>1 room X 2 nights</p>
-      <p>$ 120.32</p>
+      <p>$ {{ hotel?.price }}</p>
     </div>
 
     <div
@@ -24,7 +24,17 @@
       class="flex items-center mt-[14px] justify-between px-[18px] mb-3 text-[#181818] font-medium tracking-[0.16px]"
     >
       <p>Total</p>
-      <p class="text-[#333333] text-xl font-semibold">$ 130</p>
+      <p class="text-[#333333] text-xl font-semibold">
+        $ {{ 8.32 + parseFloat(hotel?.price) }}
+      </p>
     </div>
   </div>
 </template>
+
+<script setup>
+defineProps({
+  hotel: {
+    default: {},
+  },
+});
+</script>

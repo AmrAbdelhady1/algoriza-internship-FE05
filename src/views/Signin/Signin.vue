@@ -63,10 +63,11 @@
 <script setup>
 import { ref } from "vue";
 import { useRouter } from "vue-router";
+import { useStore } from "../../stores/Store";
+
+import Loader from "../../components/Loader.vue";
 import LogoSvg from "../../assets/svg/logoSvg.vue";
 import ShowPasswordSvg from "../../assets/svg/showPasswordSvg.vue";
-import { useStore } from "../../stores/Store";
-import Loader from "../../components/Loader.vue";
 
 const store = useStore();
 const router = useRouter();

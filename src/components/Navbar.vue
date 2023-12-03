@@ -9,7 +9,8 @@
       :to="{ name: 'home' }"
       class="flex items-center gap-1 cursor-pointer"
     >
-      <LogoSvg />
+    <WhiteLogoSvg v-if="showLinks === 'blue'"/>
+      <LogoSvg v-else/>
       <p
         class="text-[#1B1F2D] text-lg font-medium tracking-[0.36px]"
         :class="{
@@ -55,6 +56,7 @@
 <script setup>
 import { ref } from "vue";
 import LogoSvg from "../assets/svg/logoSvg.vue";
+import WhiteLogoSvg from "../assets/svg/whiteLogoSvg.vue";
 import NotificationSvg from "../assets/svg/notificationSvg.vue";
 import ProfilePicSvg from "../assets/svg/profilePicSvg.vue";
 import UserMenu from "./UserMenu.vue";

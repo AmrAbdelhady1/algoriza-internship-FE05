@@ -78,7 +78,7 @@
 
 <script setup>
 import { onMounted, ref } from "vue";
-import { getData } from "../axios";
+import { getData } from "../axios/axiosClient";
 import { toast } from "vue3-toastify";
 import { useRouter } from "vue-router";
 
@@ -119,11 +119,11 @@ onMounted(async () => {
   const params = { query: "egypt" };
   const url = "searchDestination";
 
-  // const response = await getData(params, url, false);
+  const response = await getData(params, url, false);
 
-  // if (response) {
-  //   cityList.value = response.data.data;
-  // }
+  if (response) {
+    cityList.value = response.data.data;
+  }
 });
 
 const openCitiesMenu = async () => {

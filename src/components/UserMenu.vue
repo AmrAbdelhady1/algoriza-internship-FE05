@@ -3,7 +3,6 @@
     class="bg-white rounded-[10px] shadow-md py-[10px] flex w-[206px] items-center flex-col z-50 text-[#4F4F4F] text-[13px] tracking-[0.26px]"
   >
     <router-link
-      :to="{ name: 'checkout' }"
       class="py-[10px] px-[14px] gap-[10px] border-b border-b-[#D6D6D6] w-full flex hover:bg-[#D6D6D6] cursor-pointer"
     >
       <AccountSvg />

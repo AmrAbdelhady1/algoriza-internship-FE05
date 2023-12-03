@@ -10,14 +10,20 @@
       <h1
         class="text-[#181818] text-lg font-medium tracking-[0.18px] mb-[10px]"
       >
-        Lakeside Motel Warefront
+        {{ hotel?.hotel_name }}
       </h1>
-      <p>4.5 (1200 Reviews)</p>
+      <div class="flex items-center mb-2">
+        <RevieweRates :rate="Math.floor(hotel?.reviewScore / 2)" />
+        <p class="text-[#4F4F4F] text-sm tracking-[0.28px] mx-3">
+          {{ Math.floor(hotel?.reviewScore / 2) }} ({{ hotel?.reviewCount }}
+          Reviews)
+        </p>
+      </div>
 
       <div class="flex flex-col gap-1 mt-[25px]">
         <p class="text-[#EB5757]">Non refundable</p>
-        <p>Check in: Sunday, March 18, 2022</p>
-        <p>Check out: Tuesday, March 20, 2022</p>
+        <p>Check in: {{ checkIn }}</p>
+        <p>Check out: {{ checkOut }}</p>
         <p>2 night stay</p>
       </div>
     </div>
@@ -25,5 +31,17 @@
 </template>
 
 <script setup>
+import moment from "moment";
+
 import hotelImg from "../../../assets/images/hotel.png";
+import RevieweRates from "../../../components/RevieweRates.vue";
+
+const { hotel } = defineProps({
+  hotel: {
+    default: {},
+  },
+});
+
+const checkIn = moment(hotel?.arrival_date).format("dddd, MMMM D, YYYY");
+const checkOut = moment(hotel?.departure_date).format("dddd, MMMM D, YYYY");
 </script>

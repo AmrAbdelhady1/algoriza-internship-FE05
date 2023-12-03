@@ -4,6 +4,7 @@ export const useStore = defineStore("taskStore", {
   state: () => ({
     showCard: false,
     openLoader: false,
+    hotel: {},
   }),
   actions: {
     loggedIn() {
@@ -14,6 +15,9 @@ export const useStore = defineStore("taskStore", {
     },
     updateLoader() {
       this.openLoader = !this.openLoader;
+    },
+    addHotel(hotel) {
+      this.hotel = hotel;
     },
   },
 });
